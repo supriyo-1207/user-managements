@@ -2,6 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config.config import SQLALCHEMY_DATABASE_URI
 from DataBase.db_conncetions import db
+from routes.user_routes import user
+from flask_bcrypt import Bcrypt
+
 
 app = Flask(__name__)
 
@@ -9,11 +12,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 db.init_app(app)
 
+# initialize bcrypt
+bcrypt = Bcrypt(app)
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+# register blueprints
+app.register_blueprint(user)
+
 
 
 if __name__ == "__main__":
